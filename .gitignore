@@ -1,0 +1,6 @@
+*.a
+*.o
+vgcore*
+my_segfault
+src/segfault.c
+mysh
