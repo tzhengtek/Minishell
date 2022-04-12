@@ -4,7 +4,7 @@ Le modèle utilisé comme interpréteur est TCSH et vous pouvez vous naviguez da
 
 ## USAGE
 ```
-  ./mysh
+./mysh
 ```
 ## BUILD
 ```
