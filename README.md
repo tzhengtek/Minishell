@@ -1,5 +1,6 @@
-# Minishell
+# Minishell ![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
 This is a program of a UNIX command interpreter and the reference shell is TCSH.
+
 You can execute many commands like: cd, ls...
 
 ## BUILD
