@@ -2,11 +2,14 @@
 Reproduction d'un interpréteur de commande sous UNIX, qui vous permettra d'éxécuter certaines commandes.
 Le modèle utilisé comme interpréteur est TCSH et vous pouvez vous naviguez dans cette reproduction d'un terminal de commande.
 
+## USAGE
+```
+  ./mysh
+```
 ## BUILD
 ```
 make
 ```
-
 
 - Vous promenez entre les dossiers grâce à la commande "cd" : (cd 'folder')
 - Affichez le contenu du dossier dans lequel vous êtes avec la commande "ls"
