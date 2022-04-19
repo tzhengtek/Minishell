@@ -21,10 +21,25 @@ List directory contents of files and directories with the command LS
 ```
 ls
 ``` 
-## REDIRECTION
+## SIMPLE REDIRECTION OUTPUT
 Redirect standard output into a file
 ```
 ls > 'file'
+```
+## DOUBLE REDIRECTION OUTPUT
+Redirect standard output and append into a file
+```
+ls >> 'file'
+```
+## SIMPLE REDIRECTION INPUT
+Redirect content of file as input
+```
+cat < 'file'
+```
+## DOUBLE REDIRECTION INPUT
+Make a infinite loop as long as you don't write the name after "<<", and then do the command
+```
+ls << 'name'
 ```
 ## EXIT
 Exit the program ( You can also use CTRL + D )
