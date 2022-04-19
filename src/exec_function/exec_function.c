@@ -23,18 +23,19 @@ static void execute_path_arg(char **path, char **arg, char **new_env)
     }
 }
 
-static int check_possible_redirection(char **file, int fd, char **arg)
+static int check_possible_redirection(char **file, char **arg)
 {
     int quit = 0;
 
     if (check_redirection(arg) != -1) {
-        quit = redirection_cmd(file, fd, arg);
+        quit = redirection_cmd(file, arg);
         if (quit == -1) {
             write(2, *file, my_strlen(*file));
             my_printf("%e\n", ": Permission denied.");
             return 1;
-        } else if (quit == 0)
+        } else if (quit == 0) {
             return 0;
+        }
     }
     return -1;
 }
@@ -43,7 +44,6 @@ static int execute_cmd(char **arg, char **new_env, char **path)
 {
     int status = 0;
     pid_t pid = fork();
-    int fd = 0;
     int quit = 0;
     char *file = NULL;
 
@@ -51,7 +51,7 @@ static int execute_cmd(char **arg, char **new_env, char **path)
         waitpid(-1, &status, 0);
         return check_error(status);
     } else {
-        quit = check_possible_redirection(&file, fd, arg);
+        quit = check_possible_redirection(&file, arg);
         if (quit == 1 || quit == 0)
             return quit;
         execve(arg[0], arg, new_env);
@@ -60,7 +60,6 @@ static int execute_cmd(char **arg, char **new_env, char **path)
         my_printf("%e: Command not found.\n", arg[0]);
         exit(0);
     }
-    return 0;
 }
 
 static int execute_arg(stock_t *stock, char **arg)

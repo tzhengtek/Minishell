@@ -33,7 +33,7 @@ int check_setenv(stock_t *stock, char **arg)
         if (check_alaphanumeric(arg[1]) == 0)
             return 1;
         if (my_arrlen(arg) > 1) {
-            stock->new_env = my_setenv(stock, arg);
+            my_setenv(stock, arg);
             return 1;
         }
     }

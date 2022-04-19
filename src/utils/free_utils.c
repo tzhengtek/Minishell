@@ -16,12 +16,6 @@ void free_all_arg(char ***array)
     free(array);
 }
 
-void free_everything(stock_t *stock, char *buff)
-{
-    free_all(stock);
-    free(buff);
-}
-
 void free_all(stock_t *stock)
 {
     if (stock->new_env != NULL)
@@ -34,5 +28,6 @@ void free_all(stock_t *stock)
         free(stock->home);
     if (stock->prompt != NULL)
         free(stock->prompt);
+    free(stock->buff);
     free(stock);
 }

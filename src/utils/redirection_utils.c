@@ -10,7 +10,7 @@
 int condition_redirection(char *arg)
 {
     for (int j = 0; arg[j] != '\0'; j++) {
-        if (arg[j] == '>')
+        if (arg[j] == '>' || arg[j] == '<')
             return 1;
     }
     return 0;
@@ -26,7 +26,13 @@ int check_redirection(char **arg)
 
 int check_double_redirection(char **arg, int index, int pos)
 {
-    if (arg[index][pos] == '>')
+    if (arg[index][pos - 1] == '>' && arg[index][pos] != '>')
         return 1;
+    if (arg[index][pos - 1] == '>' && arg[index][pos] == '>')
+        return 2;
+    if (arg[index][pos - 1] == '<' && arg[index][pos] == '<')
+        return -2;
+    if (arg[index][pos - 1] == '<' && arg[index][pos] != '<')
+        return -1;
     return 0;
 }

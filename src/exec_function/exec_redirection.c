@@ -9,6 +9,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdio.h>
 #include "proto.h"
 #include "my_printf.h"
 
@@ -23,41 +24,28 @@ char **remove_index_array(char **arg, int index, int size)
             tmp++;
         }
     }
-    new_array[size] = NULL;
+    new_array[size - 1] = NULL;
     free_array(arg);
     return new_array;
 }
 
-int redirection_type_function(int state, int fd, struct stat bytes)
+int redirection_type_std(int state, char *file)
 {
-    char *empty = NULL;
-    int nb = bytes.st_size;
-
-    if (state == 1) {
-        empty = malloc(sizeof(char) * (nb + 1));
-        for (int i = 0; i < nb; i++)
-            empty[i] = '\0';
-        if (write(fd, empty, nb) == -1)
-            return -1;
-        free(empty);
-    }
-    return 0;
+    if (state <= 2 && state > 0)
+        return redirection_stdout(state, file);
+    else if (state == -1)
+        return redirection_stdin(file);
+    else
+        return double_redirection_stdin(file);
 }
 
-int redirection_cmd(char **file, int fd, char **arg)
+int redirection_cmd(char **file, char **arg)
 {
     int state = 0;
-    struct stat bytes;
 
     if ((*file = get_redirection_file(arg, &state)) == NULL)
         return 0;
-    fd = open(*file, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-    if (fd == -1)
+    if (redirection_type_std(state, *file) == -1)
         return -1;
-    if (stat(*file, &bytes) == -1)
-        return -1;
-    if (redirection_type_function(state, fd, bytes) == -1)
-        return -1;
-    dup2(fd, 1);
     return 1;
 }

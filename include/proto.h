@@ -8,6 +8,11 @@
 #ifndef PROTO_H_
     #define PROTO_H_
 
+    #define BLUE "\033[0;34m"
+    #define RESET "\033[0m"
+    #define CYAN "\e[1;36m"
+    #define ABS(value) ((value < 0) ? (-value) : (value))
+
 typedef struct stock {
     char **new_env;
     char ***arg;
@@ -17,6 +22,7 @@ typedef struct stock {
     char *prompt;
     char *home;
     char *pwd;
+    char *buff;
 } stock_t;
 
 char **str_to_array(char *str, char *separator);
@@ -51,7 +57,6 @@ int count_key_cond(char **new_env, char *arg, int count);
 int count_key(stock_t *stock, char **arg);
 int check_same_key(char *env, int index, char **new_env, char **arg);
 void check_memset(char *buff);
-void free_all(stock_t *stock);
 int minishell(char **env);
 int index_character(char *str, char c, int nb);
 int is_alpha(char c);
@@ -61,8 +66,8 @@ void print_coredump(int status);
 int check_error(int status);
 stock_t *create_stock(char **env);
 void free_all_arg(char ***array);
-void free_everything(stock_t *stock, char *buff);
-int redirection_cmd(char **file, int fd, char **arg);
+void free_all(stock_t *stock);
+int redirection_cmd(char **file, char **arg);
 int check_redirection(char **arg);
 char *get_filename(char **arg, int index, int *state);
 int condition_redirection(char *arg);
@@ -70,5 +75,9 @@ int check_double_redirection(char **arg, int index, int pos);
 char *get_redirection_file(char **arg, int *state);
 char **create_env(void);
 char ***check_multiple_arg(char *buff);
+char **remove_index_array(char **arg, int index, int size);
+int redirection_stdout(int state, char *file);
+int redirection_stdin(char *file);
+int double_redirection_stdin(char *file);
 
 #endif

@@ -47,15 +47,21 @@ void add_key_array(stock_t *stock, char *key, char *value)
 
 char **modify_key(stock_t *stock, char **arg)
 {
-    char *the_env;
+    char *the_env = NULL;
+    char *save = NULL;
+    int index = 0;
 
     if (my_arrlen(arg) == 2)
         stock->new_env[index_key(stock->new_env, arg[1])] =
         my_strcat(arg[1], "=");
     else {
-        the_env = my_strcat(arg[1], "=");
-        the_env = my_strcat(the_env, arg[2]);
-        stock->new_env[index_key(stock->new_env, arg[1])] = the_env;
+        save = my_strcat(arg[1], "=");
+        the_env = my_strcat(save, arg[2]);
+        index = index_key(stock->new_env, arg[1]);
+        free(stock->new_env[index]);
+        stock->new_env[index] = my_strdup(the_env);
+        free(save);
+        free(the_env);
     }
     return stock->new_env;
 }

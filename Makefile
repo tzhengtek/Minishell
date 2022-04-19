@@ -24,6 +24,7 @@ SRC     =	src/main.c								\
 			src/utils/free_utils.c					\
 			src/utils/redirection_utils.c			\
 			src/utils/redirection_type_utils.c		\
+			src/utils/redirection_flag_utils.c		\
 			src/utils/redirection_filename_utils.c	\
 			src/create/create_key.c					\
 			src/create/create_function.c			\

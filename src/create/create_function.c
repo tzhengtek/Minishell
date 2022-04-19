@@ -37,5 +37,6 @@ stock_t *create_stock(char **env)
     stock->id_arg = 0;
     stock->id_cd = 0;
     stock->arg = NULL;
+    stock->buff = NULL;
     return stock;
 }

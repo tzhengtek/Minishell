@@ -1,71 +1,54 @@
 /*
 ** EPITECH PROJECT, 2022
-** check_redirection_utils2.C
+** redirection_type_utils.c
 ** File description:
-** redirection_utils2.c
+** redirection_type_utils
 */
 
 #include <stdlib.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
 #include "proto.h"
 #include "my_printf.h"
 
-static int get_filename_pos(char **arg, int index)
+int redirection_stdout(int state, char *file)
 {
-    for (int i = 0; arg[index][i] != '\0'; i++) {
-        if (arg[index][i] == '>')
-            return i + 1;
-    }
+    int fd = open(file, O_RDWR | O_CREAT | ((state == 1) ? O_TRUNC : O_APPEND),
+    S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
+
+    if (fd == -1)
+        return -1;
+    dup2(fd, 1);
+    close(fd);
     return 0;
 }
 
-static char *redirecion_flag_stick(char **arg, int index, int tmp)
+int redirection_stdin(char *file)
 {
-    char *file = NULL;
+    int fd = open(file, O_RDONLY);
 
-    if (arg[index][tmp] == '\0') {
-        file = my_strdup(arg[index + 1]);
-        my_memset(arg[index], '\0', get_filename_pos(arg, index) - 1);
-        arg[index + 1] = NULL;
-    } else {
-        file = my_strdup(arg[index] + tmp);
-        my_memset(arg[index], '\0', get_filename_pos(arg, index) - 1);
-        if (my_strlen(arg[index]) == 0)
-            arg[index] = NULL;
+    if (fd == -1)
+        return -1;
+    dup2(fd, 0);
+    close(fd);
+    return 0;
+}
+
+int double_redirection_stdin(char *file)
+{
+    char *buff = NULL;
+    size_t size = 0;
+
+    my_printf("? ");
+    while (getline(&buff, &size, stdin) != -1) {
+        my_memset(buff, '\0', my_strlen(buff) - 1);
+        if (my_strcmp(buff, file) == 0)
+            break;
+        my_printf("? ");
     }
-    return file;
-}
-
-static char *redirection_flag_split(char **arg, int index)
-{
-    char *file = NULL;
-
-    if (arg[index + 1] != NULL) {
-        file = my_strdup(arg[index + 1]);
-        arg[index] = NULL;
-        arg[index + 1] = NULL;
-    } else
-        my_printf("%e\n", "Missing name for redirect.");
-    return file;
-}
-
-static char *redirection_condition(int value, char **arg, int index, int tmp)
-{
-    char *file = NULL;
-
-    if (my_strlen(arg[index]) == value)
-        file = redirection_flag_split(arg, index);
-    else if (my_strlen(arg[index]) != value)
-        file = redirecion_flag_stick(arg, index, tmp);
-    return file;
-}
-
-char *get_filename(char **arg, int index, int *state)
-{
-    int tmp = get_filename_pos(arg, index);
-
-    if (check_double_redirection(arg, index, tmp) == 0)
-        *state = 1;
-    else
-        *state = 2;
-    return redirection_condition(*state, arg, index, tmp);
+    free(buff);
+    free(file);
+    return 0;
 }
