@@ -53,13 +53,14 @@ static int execute_cmd(char **arg, char **new_env, char **path)
     } else {
         quit = check_possible_redirection(&file, arg);
         if (quit == 1 || quit == 0)
-            return quit;
+            exit(quit);
         execve(arg[0], arg, new_env);
         if (path != NULL)
             execute_path_arg(path, arg, new_env);
         my_printf("%e: Command not found.\n", arg[0]);
         exit(0);
     }
+    return 0;
 }
 
 static int execute_arg(stock_t *stock, char **arg)

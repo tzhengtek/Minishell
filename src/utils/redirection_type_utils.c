@@ -49,6 +49,5 @@ int double_redirection_stdin(char *file)
         my_printf("? ");
     }
     free(buff);
-    free(file);
     return 0;
 }

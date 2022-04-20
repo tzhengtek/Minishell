@@ -20,7 +20,8 @@ int execute_command(stock_t *stock, char *buff, int quit)
         quit = execute(stock, stock->arg[i]);
     free(stock->prompt);
     stock->prompt = get_prompt();
-    free_array(stock->path);
+    if (stock->path != NULL)
+        free_array(stock->path);
     stock->path = get_path(stock->new_env);
     my_printf("%s%s%s$ ", CYAN, stock->prompt, RESET);
     free_all_arg(stock->arg);
