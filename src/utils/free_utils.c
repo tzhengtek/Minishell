@@ -21,7 +21,7 @@ void free_all(stock_t *stock)
     if (stock->new_env != NULL)
         free_array(stock->new_env);
     if (stock->id_arg == 1)
-        free_all_arg(stock->arg);
+        free_array(stock->arg);
     if (stock->path != NULL)
         free_array(stock->path);
     if (stock->home != NULL)

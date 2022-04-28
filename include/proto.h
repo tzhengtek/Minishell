@@ -15,7 +15,7 @@
 
 typedef struct stock {
     char **new_env;
-    char ***arg;
+    char **arg;
     int id_arg;
     int id_cd;
     char **path;
@@ -47,7 +47,7 @@ int check_oldpwd(char **new_env);
 void change_oldpwd(stock_t *stock, char *save);
 int index_key(char **new_env, char *key);
 int check_cd(stock_t *stock, char **arg);
-int execute(stock_t *stock, char **arg);
+int execute(stock_t *stock);
 int check_exit(stock_t *stock, char **arg);
 char **create_key(stock_t *stock, char **arg);
 char **modify_key(stock_t *stock, char **arg);
@@ -79,5 +79,7 @@ char **remove_index_array(char **arg, int index, int size);
 int redirection_stdout(int state, char *file);
 int redirection_stdin(char *file);
 int double_redirection_stdin(char *file);
+void execute_cmd_path(char **arg, char **new_env, char **path);
+int check_pipe_redirection(char **path, char **new_env, char *buff);
 
 #endif

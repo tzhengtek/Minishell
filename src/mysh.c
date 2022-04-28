@@ -14,17 +14,16 @@
 
 int execute_command(stock_t *stock, char *buff, int quit)
 {
-    stock->arg = check_multiple_arg(buff);
+    stock->arg = str_to_array(buff, ";");
     stock->id_arg = 1;
-    for (int i = 0; stock->arg[i] != NULL; i++)
-        quit = execute(stock, stock->arg[i]);
+    quit = execute(stock);
     free(stock->prompt);
     stock->prompt = get_prompt();
     if (stock->path != NULL)
         free_array(stock->path);
     stock->path = get_path(stock->new_env);
     my_printf("%s%s%s$ ", CYAN, stock->prompt, RESET);
-    free_all_arg(stock->arg);
+    free_array(stock->arg);
     stock->id_arg = 0;
     return quit;
 }
@@ -51,7 +50,7 @@ int minishell(char **env)
         if (nb > 1)
             quit = execute_command(stock, stock->buff, quit);
         else
-            my_printf("%s$ ", stock->prompt);
+            my_printf("%s%s%s$ ", CYAN, stock->prompt, RESET);
     }
     free_all(stock);
     my_printf("exit\n");

@@ -5,31 +5,33 @@
 ## makefile
 ##
 
-SRC     =	src/main.c								\
-			src/mysh.c								\
-			src/get_info/get_path.c					\
-			src/get_info/get_prompt.c				\
-			src/get_info/get_pwd.c					\
-			src/exec_function/cd_function.c			\
-			src/exec_function/env_function.c		\
-			src/exec_function/exec_function.c		\
-			src/exec_function/setenv_function.c		\
-			src/exec_function/unsetenv_function.c	\
-			src/exec_function/exit_function.c		\
-			src/exec_function/exec_redirection.c	\
-			src/utils/utils.c						\
-			src/utils/utils2.c						\
-			src/utils/utils3.c						\
-			src/utils/key_utils.c					\
-			src/utils/free_utils.c					\
-			src/utils/redirection_utils.c			\
-			src/utils/redirection_type_utils.c		\
-			src/utils/redirection_flag_utils.c		\
-			src/utils/redirection_filename_utils.c	\
-			src/create/create_key.c					\
-			src/create/create_function.c			\
-			src/check/check_error.c					\
-			src/check/check_argument.c				\
+SRC     =	src/main.c									\
+			src/mysh.c									\
+			src/get_info/get_path.c						\
+			src/get_info/get_prompt.c					\
+			src/get_info/get_pwd.c						\
+			src/exec_function/cd_function.c				\
+			src/exec_function/env_function.c			\
+			src/exec_function/exec_function.c			\
+			src/exec_function/setenv_function.c			\
+			src/exec_function/unsetenv_function.c		\
+			src/exec_function/exit_function.c			\
+			src/exec_function/exec_redirection.c		\
+			src/exec_function/exec_pipe_redirection.c	\
+			src/utils/utils.c							\
+			src/utils/utils2.c							\
+			src/utils/utils3.c							\
+			src/utils/key_utils.c						\
+			src/utils/execution_utils.c					\
+			src/utils/free_utils.c						\
+			src/utils/redirection_utils.c				\
+			src/utils/redirection_type_utils.c			\
+			src/utils/redirection_flag_utils.c			\
+			src/utils/redirection_filename_utils.c		\
+			src/create/create_key.c						\
+			src/create/create_function.c				\
+			src/check/check_error.c						\
+			src/check/check_argument.c					\
 
 OBJ     =	$(SRC:.c=.o)
 

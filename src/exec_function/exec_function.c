@@ -13,16 +13,6 @@
 #include "proto.h"
 #include "my_printf.h"
 
-static void execute_path_arg(char **path, char **arg, char **new_env)
-{
-    char *exec = NULL;
-
-    for (int i = 0; path[i] != NULL; i++) {
-        execve((exec = my_strcat(path[i], arg[0])), arg, new_env);
-        free(exec);
-    }
-}
-
 static int check_possible_redirection(char **file, char **arg)
 {
     int quit = 0;
@@ -33,14 +23,13 @@ static int check_possible_redirection(char **file, char **arg)
             write(2, *file, my_strlen(*file));
             my_printf("%e\n", ": Permission denied.");
             return 1;
-        } else if (quit == 0) {
+        } else if (quit == 0)
             return 0;
-        }
     }
     return -1;
 }
 
-static int execute_cmd(char **arg, char **new_env, char **path)
+static int execute_cmd(char **arg, char **new_env, char **path, char *buff)
 {
     int status = 0;
     pid_t pid = fork();
@@ -54,11 +43,9 @@ static int execute_cmd(char **arg, char **new_env, char **path)
         quit = check_possible_redirection(&file, arg);
         if (quit == 1 || quit == 0)
             exit(quit);
-        execve(arg[0], arg, new_env);
-        if (path != NULL)
-            execute_path_arg(path, arg, new_env);
-        my_printf("%e: Command not found.\n", arg[0]);
-        exit(0);
+        if (check_pipe_redirection(path, new_env, buff) == 0)
+            exit(0);
+        execute_cmd_path(arg, new_env, path);
     }
     return 0;
 }
@@ -80,9 +67,17 @@ static int execute_arg(stock_t *stock, char **arg)
     return 0;
 }
 
-int execute(stock_t *stock, char **arg)
+int execute(stock_t *stock)
 {
-    if (execute_arg(stock, arg) == 0 && my_arrlen(arg) != 0)
-        return execute_cmd(arg, stock->new_env, stock->path);
-    return 0;
+    char **arg = NULL;
+    int quit = 0;
+
+    for (int i = 0; stock->arg[i] != NULL; i++) {
+        arg = str_to_array(stock->arg[i], " \t\n");
+        if (execute_arg(stock, arg) == 0 && my_arrlen(arg) != 0)
+            quit = execute_cmd
+            (arg, stock->new_env, stock->path, stock->arg[i]);
+        free_array(arg);
+    }
+    return quit;
 }

@@ -12,14 +12,11 @@
 
 char **create_env(void)
 {
-    char *buff = NULL;
-    size_t size = 0;
-    char **new_env = malloc(sizeof(char *) * 2);
+    char **new_env = malloc(sizeof(char *) * 1);
 
     if (new_env == NULL)
         return NULL;
-    new_env[0] = my_strcat("PWD=", getcwd(buff, size));
-    new_env[1] = NULL;
+    new_env[0] = NULL;
     return new_env;
 }
 
