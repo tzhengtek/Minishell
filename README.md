@@ -41,6 +41,11 @@ Make a infinite loop as long as you don't write the name after "<<", and then do
 ```
 ls << 'name'
 ```
+## PIPE REDIRECTION
+Redirect a command executed output into a another command as input
+```
+ls | cat -e
+```
 ## EXIT
 Exit the program ( You can also use CTRL + D )
 ```
