@@ -37,7 +37,7 @@ Redirect content of file as input
 cat < 'file'
 ```
 ## DOUBLE REDIRECTION INPUT
-Make a infinite loop as long as you don't write the name after "<<", and then do the command
+Make a infinite loop as long as you don't write the name after "<<", and then execute the command
 ```
 ls << 'name'
 ```
